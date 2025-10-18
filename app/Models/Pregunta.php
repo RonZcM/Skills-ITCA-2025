@@ -12,11 +12,18 @@ class Pregunta extends Model
     protected $fillable = [
         'pais',
         'enunciado', 
-        'categoria',
         'respuesta'
     ];
 
-    protected $casts = [
-        'categoria' => 'string'
-    ];
+    // Relación para las categorías a través de la tabla pivot
+    public function categoriasPivot()
+    {
+        return $this->hasMany(\App\Models\CategoriaPregunta::class);
+    }
+
+    // Accesor para obtener categorías como array
+    public function getCategoriasAttribute()
+    {
+        return $this->categoriasPivot->pluck('categoria');
+    }
 }

@@ -11,7 +11,7 @@ class JuegoController extends Controller
     {
         return view('juego.index');
     }
-
+    
     public function obtenerPreguntas(Request $request)
     {
         $request->validate([
@@ -20,14 +20,18 @@ class JuegoController extends Controller
             'categorias.*' => 'in:CRI,PE,CSIS,AMACSS,DAE'
         ]);
 
-        $preguntas = Pregunta::whereIn('categoria', $request->categorias)
+        $preguntas = Pregunta::whereHas('categoriasPivot', function($query) use ($request) {
+                $query->whereIn('categoria', $request->categorias);
+            })
+            ->with('categoriasPivot')
             ->inRandomOrder()
             ->limit($request->cantidad)
-            ->get(['id', 'pais', 'enunciado', 'categoria', 'respuesta']);
+            ->get(['id', 'pais', 'enunciado', 'respuesta']);
 
         return response()->json($preguntas);
     }
 
+    // El resto del código se mantiene igual...
     public function verificarRespuesta(Request $request)
     {
         $request->validate([

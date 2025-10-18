@@ -16,7 +16,7 @@
             <thead>
                 <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                     <th class="py-3 px-6 text-left">País</th>
-                    <th class="py-3 px-6 text-left">Categoría</th>
+                    <th class="py-3 px-6 text-left">Categorías</th>
                     <th class="py-3 px-6 text-left">Enunciado</th>
                     <th class="py-3 px-6 text-left">Respuesta</th>
                     <th class="py-3 px-6 text-center">Acciones</th>
@@ -29,9 +29,13 @@
                         <span class="font-medium">{{ $pregunta->pais }}</span>
                     </td>
                     <td class="py-3 px-6 text-left">
-                        <span class="bg-blue-100 text-blue-800 py-1 px-3 rounded-full text-xs">
-                            {{ $pregunta->categoria }}
-                        </span>
+                        <div class="flex flex-wrap gap-1">
+                            @foreach($pregunta->categoriasPivot as $categoria)
+                            <span class="bg-blue-100 text-blue-800 py-1 px-2 rounded-full text-xs">
+                                {{ $categoria->categoria }}
+                            </span>
+                            @endforeach
+                        </div>
                     </td>
                     <td class="py-3 px-6 text-left">
                         <div class="truncate max-w-xs">{{ $pregunta->enunciado }}</div>

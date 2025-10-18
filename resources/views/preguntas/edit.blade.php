@@ -21,17 +21,18 @@
         </div>
 
         <div class="mb-4">
-            <label for="categoria" class="block text-gray-700 font-medium mb-2">Categoría *</label>
-            <select name="categoria" id="categoria" 
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                <option value="">Selecciona una categoría</option>
-                <option value="CRI" {{ old('categoria', $pregunta->categoria) == 'CRI' ? 'selected' : '' }}>CRI</option>
-                <option value="PE" {{ old('categoria', $pregunta->categoria) == 'PE' ? 'selected' : '' }}>PE</option>
-                <option value="CSIS" {{ old('categoria', $pregunta->categoria) == 'CSIS' ? 'selected' : '' }}>CSIS</option>
-                <option value="AMACSS" {{ old('categoria', $pregunta->categoria) == 'AMACSS' ? 'selected' : '' }}>AMACSS</option>
-                <option value="DAE" {{ old('categoria', $pregunta->categoria) == 'DAE' ? 'selected' : '' }}>DAE</option>
-            </select>
-            @error('categoria')
+            <label class="block text-gray-700 font-medium mb-2">Categorías *</label>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                @foreach(['CRI', 'PE', 'CSIS', 'AMACSS', 'DAE'] as $categoria)
+                <label class="flex items-center p-2 border border-gray-300 rounded hover:bg-gray-50">
+                    <input type="checkbox" name="categorias[]" value="{{ $categoria }}" 
+                           class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                           {{ in_array($categoria, old('categorias', $pregunta->categoriasPivot->pluck('categoria')->toArray())) ? 'checked' : '' }}>
+                    <span class="ml-2 text-gray-700">{{ $categoria }}</span>
+                </label>
+                @endforeach
+            </div>
+            @error('categorias')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
         </div>

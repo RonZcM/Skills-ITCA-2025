@@ -60,7 +60,9 @@
 
         <div id="pregunta-container" class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
             <div class="flex justify-between items-start mb-4">
-                <span id="categoria-pregunta" class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm"></span>
+                <div class="flex flex-wrap gap-1">
+                    <span id="categorias-pregunta"></span>
+                </div>
                 <span id="pais-pregunta" class="bg-gray-500 text-white px-3 py-1 rounded-full text-sm"></span>
             </div>
             <h3 id="enunciado-pregunta" class="text-xl font-semibold text-gray-800 mb-4"></h3>
@@ -166,9 +168,19 @@ function mostrarPreguntaActual() {
     document.getElementById('pregunta-actual').textContent = preguntaActual + 1;
     document.getElementById('total-preguntas').textContent = preguntas.length;
     document.getElementById('puntos').textContent = puntuacionTotal;
-    document.getElementById('categoria-pregunta').textContent = pregunta.categoria;
     document.getElementById('pais-pregunta').textContent = pregunta.pais;
     document.getElementById('enunciado-pregunta').textContent = pregunta.enunciado;
+    
+    // Mostrar múltiples categorías
+    const categoriasContainer = document.getElementById('categorias-pregunta');
+    categoriasContainer.innerHTML = '';
+    pregunta.categorias_pivot.forEach(cat => {
+        const badge = document.createElement('span');
+        badge.className = 'bg-blue-500 text-white px-2 py-1 rounded-full text-xs';
+        badge.textContent = cat.categoria;
+        categoriasContainer.appendChild(badge);
+    });
+    
     document.getElementById('respuesta-input').value = '';
     document.getElementById('intentos').textContent = intentosActual;
     
